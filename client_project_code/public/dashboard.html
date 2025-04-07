@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Map with Coordinates</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="dashboardLogic.js" defer></script>
+    <style>
+        #map {
+            height: 800px;
+            width: 75%;
+            margin: 20px auto;
+        };
+        #form-map-container{
+            display:flex;
+        };
+        #coordinates {
+            margin-top: 20px;
+            font-size: 18px;
+        }; 
+    </style>
+</head>
+<body>
+    <h1>Click on the map to get coordinates</h1>
+    <div id="form-map-container">
+    <div id="input-container">
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" placeholder="Project Name" required />
+        <label for="mainPartner">Main Partner:</label>
+        <input type="text" id="mainPartner" placeholder="Main Partner" required />
+        <label for="otherpartners">Other Partners:</label>
+        <input type="text" id="otherpartners" placeholder="Other Partners" required />
+        <label for="projectType">Project Type:</label>
+        <input type="text" id="projectType" placeholder="Project Type" required />
+        <label for="areaScope">Area Scope:</label>
+        <input type="text" id="areaScope" placeholder="Area Scope" required />
+        <label for="deliverables">Deliverables:</label>
+        <input type="text" id="deliverables" placeholder="Deliverables" required />
+        <label for="link">Link:</label>
+        <input type="url" id="link" placeholder="Link to Project" required />
+    <button id="submit" onclick="handleFormSubmit(event)">Submit</button>
+    </div>
+
+    <div id="map"></div>
+    </div>
+    <div id="coordinates">
+        <p>Latitude: <span id="lat">None</span></p>
+        <p>Longitude: <span id="lng">None</span></p>
+    </div>
+
+    <div id="table-container">
+        <table border="1" style="width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Main Partner</th>
+                    <th>Other Partners</th>
+                    <th>Project Type</th>
+                    <th>Area Scope</th>
+                    <th>Deliverables</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody id="project-table"></tbody>
+        </table>
+</body>
+</html>

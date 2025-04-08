@@ -1,73 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <style>
-        #map {
-            width: 80%; /* Adjust width as needed */
-            height: 500px; /* Adjust height as needed */
-            margin: 0 auto; /* Centers the map */
-        }
-    </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+  </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script>
-        const map = L.map('map').setView([38.9072, -77.0369], 13);
-        
-        // Use the Stamen Terrain tile layer for topographical map with minimal labels
-        L.tileLayer('https://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
-            attribution: '&copy; OpenStreetMap contributors, &copy; Stamen Design'
-        }).addTo(map);
+  <div id="map"></div>
+  <script>
+    var map = L.map('map').setView([38.9072,-77.0369], 13);
 
-        // URL for a different US States GeoJSON file (this one works)
-        const geojsonUrl = 'https://raw.githubusercontent.com/mbostock/topojson/master/samples/us-10m.json';
-
-        fetch(geojsonUrl)
-            .then(response => response.json())
-            .then(data => {
-                // Convert TopoJSON to GeoJSON (TopoJSON is a compressed format)
-                const geojsonData = topojson.feature(data, data.objects.states).features;
-                
-                // Highlight state boundaries by adding a GeoJSON layer
-                L.geoJSON(geojsonData, {
-                    style: function (feature) {
-                        return {
-                            color: "#FF6347", // Highlight color for state boundaries
-                            weight: 2,         // Line width
-                            opacity: 1,        // Line opacity
-                            fillOpacity: 0     // Remove fill
-                        };
-                    }
-                }).addTo(map);
-            })
-            .catch(error => {
-                console.error('Error fetching GeoJSON data for states:', error);
-            });
-
-        fetch('/pings')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch pings');
-                }
-                return response.json();
-            })
-            .then(data => {
-                data.forEach(({ lat, lng, link }) => {
-                    const sanitizedLink = link.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    L.marker([lat, lng]).addTo(map)
-                        .bindPopup(`<a href="${sanitizedLink}" target="_blank">View File</a>`);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching pings:', error);
-                alert('Failed to load map data.');
-            });
-    </script>
-    <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.js"></script>
-</body>
+    L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuRfAynPnVkfBw', {
+      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+    }).addTo(map);
+    
+  </script>
 </html>

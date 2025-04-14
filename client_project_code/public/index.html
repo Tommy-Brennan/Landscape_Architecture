@@ -25,6 +25,19 @@
     L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuRfAynPnVkfBw', {
       attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
     }).addTo(map);
-    
+
+    fetch('/projects')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          const project = data[i];
+          const marker = L.marker([project.lat, project.lng]).addTo(map);
+          marker.bindPopup(`<b>Project Name: ${project.projectName}</b><br>Deliverables: ${project.deliverables}<br>Project Type: ${project.projectType}
+          <br>Area Scope: ${project.areaScope}<br>Link: <a href="${project.link}" target="_blank">${project.link}</a>`);
+        }
+      })
+      .catch(error => console.error('Error fetching tiles:', error));
+  
   </script>
 </html>

@@ -1,0 +1,79 @@
+body, html { 
+    margin: 0; 
+    padding: 0; 
+    height: 100%; 
+}
+#map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 100%;
+}
+#collapseButton {
+    float: right;
+    font-size: 1.25em;
+    margin-top: 4px;
+    cursor: pointer;
+    display: none;
+}
+
+#leaflet-sidebar-content {
+    width: auto;
+    height: auto;
+}
+
+/* Expanded right sidebar */
+#sidebar {
+    width: 800px;
+    max-width: 700px;
+    transition: all 0.3s ease;
+  }
+  
+/* Collapsed right sidebar */
+#sidebar.collapsed {
+    width: 0;
+    max-width: 0;
+    overflow: hidden;
+}
+
+#sidebar-content {
+    height: calc(100vh - 100px); /* Adjust based on your header size */
+    overflow: auto;
+}
+
+#sidebar iframe {
+    width: 640px;
+    height: 60vh;
+}
+  
+
+#sidebar .leaflet-sidebar-content {
+    width: 100%;
+}
+
+
+#leftSidebar {
+    left: 0 !important;
+    right: auto !important;
+}
+
+#leftSidebar .left-sidebar-link {
+    text-decoration: none;
+    color: #000;
+    display: block;
+}
+
+#leftSidebar li {
+    list-style: none;
+}
+
+
+#hamburgerToggle {
+    transition: transform 0.3s ease;
+    display: inline-block;
+  }
+
+.rotate-hamburger {
+    transform: rotate(90deg);
+}
+

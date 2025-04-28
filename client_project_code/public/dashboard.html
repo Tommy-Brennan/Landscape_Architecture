@@ -25,7 +25,7 @@
 <body>
     <h1>Click on the map to get coordinates</h1>
     <div id="form-map-container">
-    <div id="input-container">
+    <form id="input-container">
         <label for="projectName">Project Name:</label>
         <input type="text" id="projectName" placeholder="Project Name" required />
         <label for="mainPartner">Main Partner:</label>
@@ -41,7 +41,7 @@
         <label for="link">Link:</label>
         <input type="url" id="link" placeholder="Link to Project" required />
     <button id="submit" onclick="handleFormSubmit(event)">Submit</button>
-    </div>
+    </form>
 
     <div id="map"></div>
     </div>
@@ -51,7 +51,7 @@
     </div>
 
     <div id="table-container">
-        <table border="1" style="width: 100%; margin-top: 20px;">
+        <table border='1' style="width: 100%; margin-top: 20px;">
             <thead>
                 <tr>
                     <th>Project Name</th>

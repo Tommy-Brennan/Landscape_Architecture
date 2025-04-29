@@ -7,47 +7,52 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="dashboardLogic.js" defer></script>
-    <style>
-        #map {
-            height: 800px;
-            width: 75%;
-            margin: 20px auto;
-        };
-        #form-map-container{
-            display:flex;
-        };
-        #coordinates {
-            margin-top: 20px;
-            font-size: 18px;
-        }; 
-    </style>
+    <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-    <h1>Click on the map to get coordinates</h1>
-    <div id="form-map-container">
-    <form id="input-container">
-        <label for="projectName">Project Name:</label>
-        <input type="text" id="projectName" placeholder="Project Name" required />
-        <label for="mainPartner">Main Partner:</label>
-        <input type="text" id="mainPartner" placeholder="Main Partner" required />
-        <label for="otherpartners">Other Partners:</label>
-        <input type="text" id="otherpartners" placeholder="Other Partners" required />
-        <label for="projectType">Project Type:</label>
-        <input type="text" id="projectType" placeholder="Project Type" required />
-        <label for="areaScope">Area Scope:</label>
-        <input type="text" id="areaScope" placeholder="Area Scope" required />
-        <label for="deliverables">Deliverables:</label>
-        <input type="text" id="deliverables" placeholder="Deliverables" required />
-        <label for="link">Link:</label>
-        <input type="url" id="link" placeholder="Link to Project" required />
-    <button id="submit" onclick="handleFormSubmit(event)">Submit</button>
-    </form>
-
-    <div id="map"></div>
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/">Interactive Map</a>
+        <a href="#">Users</a>
+        <a href="#">Settings</a>
     </div>
-    <div id="coordinates">
-        <p>Latitude: <span id="lat">None</span></p>
-        <p>Longitude: <span id="lng">None</span></p>
+
+    <div class="main">
+        <h1>Project Dashboard</h1>
+
+        <div class="add-button-container">
+            <button id="add-button" onclick="openModal()">+ Add a Project</button>
+        </div>
+
+    <div class="modal" id="form-map-container">
+
+        <div class="form-map-content">
+            <span><span class="close">&times;</span></span>
+
+            <form id="input-container">
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" placeholder="Project Name" required />
+                <label for="mainPartner">Main Partner:</label>
+                <input type="text" id="mainPartner" placeholder="Main Partner" required />
+                <label for="otherpartners">Other Partners:</label>
+                <input type="text" id="otherpartners" placeholder="Other Partners" required />
+                <label for="projectType">Project Type:</label>
+                <input type="text" id="projectType" placeholder="Project Type" required />
+                <label for="areaScope">Area Scope:</label>
+                <input type="text" id="areaScope" placeholder="Area Scope" required />
+                <label for="deliverables">Deliverables:</label>
+                <input type="text" id="deliverables" placeholder="Deliverables" required />
+                <label for="link">Link:</label>
+                <input type="url" id="link" placeholder="Link to Project" required />
+                <div id="coordinates">
+                    <p>Latitude: <span id="lat">None</span></p>
+                    <p>Longitude: <span id="lng">None</span></p>
+                </div>
+            <button id="submit" onclick="handleFormSubmit(event)">Submit</button>
+            </form>
+            <div id="map"></div>
+        </div>
     </div>
 
     <div id="table-container">
@@ -61,9 +66,11 @@
                     <th>Area Scope</th>
                     <th>Deliverables</th>
                     <th>Link</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="project-table"></tbody>
         </table>
+    </div>
 </body>
 </html>

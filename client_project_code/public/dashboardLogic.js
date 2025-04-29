@@ -1,26 +1,46 @@
 // Initialize the map centered on a default location (e.g., Washington DC)
-const map = L.map('map').setView([38.9072, -77.0369], 13);
+// Initialize the map centered on Washington DC
+let map = L.map('map').setView([38.9072, -77.0369], 7.3);
 
-// Use CartoDB Positron tile layer (simple, minimalistic map with no streets)
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CartoDB</a>'
+L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuRfAynPnVkfBw', {
+    attribution: 'Map data © OpenStreetMap contributors',
 }).addTo(map);
 
-// Event listener for map click
-map.on('click', function(e) {
-    const lat = e.latlng.lat;
-    const lng = e.latlng.lng;
+// Define style for GeoJSON layer
+var myStyle = {
+    "color": "#28a745",
+    "weight": 2,
+    "opacity": 0.8,
+    "fill": false
+};
 
-    // Update the coordinates display
-    document.getElementById('lat').textContent = lat.toFixed(6);  // Display latitude with 6 decimal places
-    document.getElementById('lng').textContent = lng.toFixed(6);  // Display longitude with 6 decimal places
+// Load GeoJSON from external URL
+fetch("https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json")
+    .then(response => response.json())
+    .then(geojson => {
+        L.geoJSON(geojson, { style: myStyle }).addTo(map);
+    })
+    .catch(error => {
+        console.error("Failed to load GeoJSON:", error);
+    });
 
-    // Optionally, show a popup with the coordinates at the clicked location
-    L.popup()
-        .setLatLng(e.latlng)
-        .setContent(`Latitude: ${lat.toFixed(6)}, Longitude: ${lng.toFixed(6)}`)
-        .openOn(map);
+
+
+let marker;
+
+map.on('click', function (e) {
+    const { lat, lng } = e.latlng;
+    document.getElementById('lat').textContent = lat.toFixed(5);
+    document.getElementById('lng').textContent = lng.toFixed(5);
+
+    if (marker) {
+        marker.setLatLng(e.latlng);
+    } else {
+        marker = L.marker(e.latlng).addTo(map);
+    }
 });
+
+
 
 // Function to add a fields to database
 function addToDatabase(project) {
@@ -92,6 +112,35 @@ function populateTable() {
             });
         })
         .catch(error => console.error('Error fetching projects:', error));
+}
+
+const form = document.getElementById('form-map-container');
+const addBtn = document.getElementById('add-button');
+const span = document.querySelector('.close');
+
+addBtn.onclick = () => {
+    form.style.display = 'block';
+    setTimeout(() => {
+        map.invalidateSize(); // Fix for Leaflet map inside modal
+    }, 200);
+}
+
+span.onclick = () => {
+    form.style.display = "none";
+};
+
+window.onclick = (event) => {
+    if (event.target === form) {
+        form.style.display = "none";
+    }
+};
+
+function openModal() {
+    form.style.display = 'block'; // Show the form when the button is clicked
+}
+
+function closeModal() {
+    form.style.display = 'none'; // Hide the form when the button is closed
 }
 
 window.onload = populateTable(); // Populate the table when the page loads

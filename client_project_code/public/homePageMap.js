@@ -10,6 +10,24 @@ L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuR
   attribution: '&copy; MapTiler & OpenStreetMap contributors'
 }).addTo(map);
 
+
+var myStyle = {
+  "color": "#28a745",
+  "weight": 2,
+  "opacity": 0.8,
+  "fill": false
+};
+
+// Load GeoJSON from external URL
+fetch("https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json")
+  .then(response => response.json())
+  .then(geojson => {
+      L.geoJSON(geojson, { style: myStyle }).addTo(map);
+  })
+  .catch(error => {
+      console.error("Failed to load GeoJSON:", error);
+  });
+
 //Initialize the sidebar
 const sidebar = L.control.sidebar({
   container: 'sidebar',

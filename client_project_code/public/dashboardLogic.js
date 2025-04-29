@@ -57,7 +57,7 @@ function addToDatabase(project) {
 // Function to handle form submission
 function handleFormSubmit(event) {
     event.preventDefault(); // Prevent the default form submission
-
+    
     // Get form values
     const projectName = document.getElementById('projectName').value;
     const mainPartner = document.getElementById('mainPartner').value;

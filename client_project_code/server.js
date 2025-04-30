@@ -54,6 +54,23 @@ app.get('/projects', async (req, res) => {
     }
 });
 
+// Get a specific project by ID
+app.get('/projects/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await turso.execute("SELECT * FROM projects WHERE id = ?", [id]);
+        const project = result.rows[0]; // Extract the first row from the result
+        if (project) {
+            res.json(project);
+        } else {
+            res.status(404).json({ error: "Project not found" });
+        }
+    } catch (err) {
+        console.error("DB error:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Add a new project
 app.post('/projects', async (req, res) => {
     const {
@@ -67,6 +84,7 @@ app.post('/projects', async (req, res) => {
         lat,
         lng
     } = req.body;
+
 
     try {
         const result = await turso.execute(`
@@ -94,6 +112,64 @@ app.post('/projects', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+app.post('/projects/delete', async (req, res) => {
+    const { ids } = req.body; // Expecting: { ids: [1, 2, 3] }
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "No project IDs provided" });
+    }
+
+    try {
+        const placeholders = ids.map(() => '?').join(',');
+        const sql = `DELETE FROM projects WHERE id IN (${placeholders})`;
+        await turso.execute(sql, ids);
+        res.status(200).json({ message: 'Projects deleted successfully' });
+    } catch (err) {
+        console.error("DB error:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+app.put('/projects/update', async (req, res) => {
+    const {
+        id,
+        projectName,
+        mainPartner,
+        otherpartners,
+        projectType,
+        areaScope,
+        deliverables,
+        link,
+        lat,
+        lng
+    } = req.body;
+
+    try {
+        await turso.execute(
+            `
+            UPDATE projects SET
+                projectName = ?,
+                mainPartner = ?,
+                otherpartners = ?,
+                projectType = ?,
+                areaScope = ?,
+                deliverables = ?,
+                link = ?,
+                lat = ?,
+                lng = ?
+            WHERE id = ?
+            `,
+            [projectName, mainPartner, otherpartners, projectType, areaScope, deliverables, link, lat, lng, id] // note 'id' is last
+        );
+        res.status(200).json({ message: 'Project updated successfully' });
+    } catch (err) {
+        console.error("DB error:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 // Serve dashboard page
 app.get('/dashboard', (req, res) => {

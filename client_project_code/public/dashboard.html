@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="dashboardLogic.js" defer></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-    <div class="sidebar">
+    <div class="sidebar-nav">
         <h2>Navigation</h2>
         <a href="/dashboard">Dashboard</a>
         <a href="/">Interactive Map</a>
@@ -22,15 +23,22 @@
         <h1>Project Dashboard</h1>
 
         <div class="add-button-container">
-            <button id="add-button" onclick="openModal()">+ Add a Project</button>
+            <button id="add-button" onclick="setFormToCreateMode()">+ Add a Project</button>
         </div>
+
+        <div id="table-controls" style="margin-top: 10px; display: none;">
+            <button id="delete-button">Delete Selected</button>
+            <button id="cancel-selection-button">Cancel Selection</button>
+        </div>
+        <button id="select-button">Select Rows</button>
+        
 
     <div class="modal" id="form-map-container">
 
         <div class="form-map-content">
             <span><span class="close">&times;</span></span>
 
-            <form id="input-container">
+            <form id="input-container" >
                 <label for="projectName">Project Name:</label>
                 <input type="text" id="projectName" placeholder="Project Name" required />
                 <label for="mainPartner">Main Partner:</label>
@@ -49,7 +57,7 @@
                     <p>Latitude: <span id="lat">None</span></p>
                     <p>Longitude: <span id="lng">None</span></p>
                 </div>
-            <button id="submit" onsubmit="handleFormSubmit(event)">Submit</button>
+            <button type="submit" id="submit-button">Submit</button>
             </form>
             <div id="map"></div>
         </div>

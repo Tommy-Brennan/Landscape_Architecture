@@ -1,4 +1,9 @@
-// Initialize the map centered on a default location (e.g., Washington DC)
+// Get references to DOM elements
+const form = document.getElementById('form-map-container');
+const addBtn = document.getElementById('add-button');
+const span = document.querySelector('.close');
+const submitButton = document.getElementById('submit-button');
+
 // Initialize the map centered on Washington DC
 let map = L.map('map').setView([38.9072, -77.0369], 7.3);
 
@@ -7,27 +12,23 @@ L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuR
 }).addTo(map);
 
 // Define style for GeoJSON layer
-var myStyle = {
-    "color": "#28a745",
-    "weight": 2,
-    "opacity": 0.8,
-    "fill": false
+const myStyle = {
+    color: "#28a745",
+    weight: 2,
+    opacity: 0.8,
+    fill: false
 };
 
-// Load GeoJSON from external URL
+// Load GeoJSON layer
 fetch("https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json")
-    .then(response => response.json())
+    .then(res => res.json())
     .then(geojson => {
         L.geoJSON(geojson, { style: myStyle }).addTo(map);
     })
-    .catch(error => {
-        console.error("Failed to load GeoJSON:", error);
-    });
+    .catch(err => console.error("Failed to load GeoJSON:", err));
 
-
-
+// Handle map click to add marker and update coordinates
 let marker;
-
 map.on('click', function (e) {
     const { lat, lng } = e.latlng;
     document.getElementById('lat').textContent = lat.toFixed(5);
@@ -40,65 +41,57 @@ map.on('click', function (e) {
     }
 });
 
-
-
-// Function to add a fields to database
+// Submit project to backend
 function addToDatabase(project) {
     fetch('/projects', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project)
+    }).then(() => console.log('Project added:', project));
+}
+
+// Handle form submission for creating a project
+function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const project = extractFormValues();
+
+    const cleanedLink = cleanLink(project.link);
+
+    project.link = cleanedLink;
+
+    // Wait for the POST request to finish before refreshing the table
+    fetch('/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(project)
     })
-    console.log('Project added:', project);
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to add project');
+        return response.json(); // optional: parse the new project
+    })
+    .then(() => {
+        populateTable();
+        document.getElementById('input-container').reset();
+        closeModal();
+    })
+    .catch(err => {
+        console.error('Error adding project:', err);
+        alert('Error saving project. Check the console.');
+    });
 }
 
-// Function to handle form submission
-function handleFormSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission
-    
-    // Get form values
-    const projectName = document.getElementById('projectName').value;
-    const mainPartner = document.getElementById('mainPartner').value;
-    const otherpartners = document.getElementById('otherpartners').value;
-    const projectType = document.getElementById('projectType').value;
-    const areaScope = document.getElementById('areaScope').value;
-    const deliverables = document.getElementById('deliverables').value;
-    const link = document.getElementById('link').value;
-    const lat = parseFloat(document.getElementById('lat').textContent);
-    const lng = parseFloat(document.getElementById('lng').textContent);
-
-    // Create a project object
-    const project = {
-        projectName,
-        mainPartner,
-        otherpartners,
-        projectType,
-        areaScope,
-        deliverables,
-        link,
-        lat,
-        lng
-    };
-
-    // Add the project to the database
-    addToDatabase(project);
-
-    populateTable(); // Refresh the table with the new project
-    document.getElementById('input-container').reset(); // Reset the form
-}
-
-// Populate table with existing projects from the database
+// Populate table with projects
 function populateTable() {
     fetch('/projects')
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
             const tableBody = document.getElementById('project-table');
-            tableBody.innerHTML = ''; // Clear existing rows
+            tableBody.innerHTML = '';
 
             data.forEach(project => {
                 const row = document.createElement('tr');
+                row.setAttribute('data-id', project.id);
                 row.innerHTML = `
                     <td>${project.projectName}</td>
                     <td>${project.mainPartner}</td>
@@ -107,40 +100,166 @@ function populateTable() {
                     <td>${project.areaScope}</td>
                     <td>${project.deliverables}</td>
                     <td><a href="${project.link}" target="_blank">${project.link}</a></td>
+                    <td><button class="edit-button" data-id="${project.id}">Edit</button></td>
                 `;
                 tableBody.appendChild(row);
             });
+
+            document.querySelectorAll('.edit-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    openEditForm(parseInt(button.getAttribute('data-id')));
+                });
+            });
         })
-        .catch(error => console.error('Error fetching projects:', error));
+        .catch(err => console.error('Error fetching projects:', err));
 }
 
-const form = document.getElementById('form-map-container');
-const addBtn = document.getElementById('add-button');
-const span = document.querySelector('.close');
+function cleanLink(link) {
+    if (typeof link !== 'string') return link;
 
+    const match = link.match(/^https:\/\/drive\.google\.com\/file\/d\/[a-zA-Z0-9_-]+/);
+    return match ? match[0] : link; // Return only the valid part, or original if no match
+}
+
+// Open form in edit mode
+function openEditForm(id) {
+    fetch(`/projects/${id}`)
+        .then(res => res.json())
+        .then(project => {
+            populateForm(project);
+            openModal();
+            const originalLink = project.link;
+
+            form.onsubmit = (event) => {
+                event.preventDefault();
+                const updatedProject = extractFormValues();
+                updatedProject.id = id;
+
+                if (updatedProject.link !== originalLink) {
+                    const cleanedLink = cleanLink(updatedProject.link);
+                    console.log(cleanedLink)
+                    updatedProject.link = cleanedLink;
+                }
+
+                fetch(`/projects/update`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedProject)
+                })
+                    .then(() => {
+                        populateTable();
+                        closeModal();
+                        console.log('Project updated:', updatedProject);
+                    })
+                    .catch(err => console.error('Error updating project:', err));
+            };
+
+            submitButton.textContent = 'Update';
+        })
+        .catch(err => console.error('Error loading project:', err));
+}
+
+// Utility: populate form with project data
+function populateForm(project) {
+    document.getElementById('projectName').value = project.projectName;
+    document.getElementById('mainPartner').value = project.mainPartner;
+    document.getElementById('otherpartners').value = project.otherpartners;
+    document.getElementById('projectType').value = project.projectType;
+    document.getElementById('areaScope').value = project.areaScope;
+    document.getElementById('deliverables').value = project.deliverables;
+    document.getElementById('link').value = project.link;
+    document.getElementById('lat').textContent = project.lat.toFixed(5);
+    document.getElementById('lng').textContent = project.lng.toFixed(5);
+    if (marker) {
+        marker.setLatLng([project.lat, project.lng]);
+    } else {
+        marker = L.marker([project.lat, project.lng]).addTo(map);
+    }
+}
+
+// Utility: extract values from form
+function extractFormValues() {
+    return {
+        projectName: document.getElementById('projectName').value,
+        mainPartner: document.getElementById('mainPartner').value,
+        otherpartners: document.getElementById('otherpartners').value,
+        projectType: document.getElementById('projectType').value,
+        areaScope: document.getElementById('areaScope').value,
+        deliverables: document.getElementById('deliverables').value,
+        link: document.getElementById('link').value,
+        lat: parseFloat(document.getElementById('lat').textContent),
+        lng: parseFloat(document.getElementById('lng').textContent)
+    };
+}
+
+// Form open in create mode
 addBtn.onclick = () => {
-    form.style.display = 'block';
-    setTimeout(() => {
-        map.invalidateSize(); // Fix for Leaflet map inside modal
-    }, 200);
-}
-
-span.onclick = () => {
-    form.style.display = "none";
+    document.getElementById('input-container').reset();
+    form.onsubmit = handleFormSubmit;
+    submitButton.textContent = 'Submit';
+    openModal();
 };
 
+// Modal controls
+span.onclick = closeModal;
 window.onclick = (event) => {
     if (event.target === form) {
-        form.style.display = "none";
+        closeModal();
     }
 };
 
 function openModal() {
-    form.style.display = 'block'; // Show the form when the button is clicked
+    form.style.display = 'block';
+    setTimeout(() => map.invalidateSize(), 200); // Leaflet fix
 }
 
 function closeModal() {
-    form.style.display = 'none'; // Hide the form when the button is closed
+    form.style.display = 'none';
 }
 
-window.onload = populateTable(); // Populate the table when the page loads
+document.getElementById('select-button').addEventListener('click', () => {
+    const rows = document.querySelectorAll('#project-table tr');
+    rows.forEach(row => {
+        if (!row.querySelector('.row-checkbox')) {
+            const checkboxCell = document.createElement('td');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'row-checkbox';
+            checkboxCell.appendChild(checkbox);
+            row.insertBefore(checkboxCell, row.firstChild); // insert at beginning
+        }
+    });
+
+    // Add the "Select" header cell at the beginning of the header row
+    const headerRow = document.querySelector('#project-table').closest('table').querySelector('thead tr');
+    if (!headerRow.querySelector('.select-header')) {
+        const th = document.createElement('th');
+        th.textContent = 'Select';
+        th.className = 'select-header';
+        headerRow.insertBefore(th, headerRow.firstChild); // insert at beginning
+    }
+
+    document.getElementById('table-controls').style.display = 'block';
+    document.getElementById('select-button').style.display = 'none';
+});
+
+
+document.getElementById('cancel-selection-button').addEventListener('click', () => {
+    // Remove all checkboxes
+    document.querySelectorAll('.row-checkbox').forEach(cb => {
+        cb.closest('td').remove();
+    });
+
+    // Remove select header cell
+    const headerRow = document.querySelector('#project-table').previousElementSibling;
+    const selectHeader = headerRow.querySelector('.select-header');
+    if (selectHeader) selectHeader.remove();
+
+    document.getElementById('table-controls').style.display = 'none';
+    document.getElementById('select-button').style.display = 'inline';
+});
+
+
+
+// Load project table on page load
+window.onload = populateTable;

@@ -3,7 +3,7 @@ let leftSidebarOpen = false;
 const collapseButton = document.getElementById('collapseButton');
 let lastClickedMarker = null;
 const hamburgerToggle = document.getElementById('hamburgerToggle');
-const map = L.map('map').setView([38.9072, -77.0369], 13);
+const map = L.map('map').setView([38.9072, -77.0369], 8);
 
 
 L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuRfAynPnVkfBw', {

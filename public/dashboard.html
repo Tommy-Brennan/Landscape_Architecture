@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Map with Coordinates</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="dashboardLogic.js" defer></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="tables.css" />
+    <link rel="stylesheet" href="modal.css" />
+    <link rel="stylesheet" href="sidebar-nav.css" />
+</head>
+<body>
+    <div class="sidebar-nav">
+        <h2>Navigation</h2>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/">Interactive Map</a>
+        <a href="/dashboard/users">Users</a>
+    </div>
+
+    <div class="main">
+        <h1 class="title">Database Dashboard</h1>
+
+    <div class="modal" id="form-map-container">
+
+        <div class="form-map-content">
+            <span><span class="close">&times;</span></span>
+
+            <form id="input-container" >
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" placeholder="Project Name" required />
+                <label for="mainPartner">Main Partner:</label>
+                <input type="text" id="mainPartner" placeholder="Main Partner" required />
+                <label for="otherpartners">Other Partners:</label>
+                <input type="text" id="otherpartners" placeholder="Other Partners" required />
+                <label for="projectType">Project Type:</label>
+                <input type="text" id="projectType" placeholder="Project Type" required />
+                <label for="areaScope">Area Scope:</label>
+                <input type="text" id="areaScope" placeholder="Area Scope" required />
+                <label for="deliverables">Deliverables:</label>
+                <input type="text" id="deliverables" placeholder="Deliverables" required />
+                <label for="link">Link:</label>
+                <input type="url" id="link" placeholder="Link to Project" required />
+                <div id="coordinates">
+                    <p>Latitude: <span id="lat">None</span></p>
+                    <p>Longitude: <span id="lng">None</span></p>
+                </div>
+
+                <div id="map"></div>
+
+                <button type="submit" id="submit-button">Submit</button>
+            </form>
+            
+            
+        </div>
+    </div>
+
+    <div id="table-container">
+        <div id="table-header">
+            <div id="table-controls" style="display: none;">
+                <div id="delete-controls">
+                    <button id="delete-button">Delete Selected</button>
+                    <button id="cancel-selection-button">Cancel Selection</button>
+                </div>
+            </div>
+
+            <button id="select-button">Select Rows</button>
+            <button id="add-button" onclick="setFormToCreateMode()">+ Add a Project</button>
+        </div>
+
+        <table border='1' style="width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Main Partner</th>
+                    <th>Other Partners</th>
+                    <th>Project Type</th>
+                    <th>Area Scope</th>
+                    <th>Deliverables</th>
+                    <th>Link</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="project-table"></tbody>
+        </table>
+    </div>
+</body>
+</html>

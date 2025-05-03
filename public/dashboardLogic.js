@@ -69,7 +69,7 @@ function handleFormSubmit(event) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Failed to add project');
-        return response.json(); // optional: parse the new project
+        return response.json();
     })
     .then(() => {
         populateTable();
@@ -119,7 +119,7 @@ function cleanLink(link) {
     if (typeof link !== 'string') return link;
 
     const match = link.match(/^https:\/\/drive\.google\.com\/file\/d\/[a-zA-Z0-9_-]+/);
-    return match ? match[0] : link; // Return only the valid part, or original if no match
+    return match ? match[0] : link; 
 }
 
 // Open form in edit mode
@@ -160,7 +160,7 @@ function openEditForm(id) {
         .catch(err => console.error('Error loading project:', err));
 }
 
-// Utility: populate form with project data
+// populate form with project data
 function populateForm(project) {
     document.getElementById('projectName').value = project.projectName;
     document.getElementById('mainPartner').value = project.mainPartner;
@@ -178,7 +178,7 @@ function populateForm(project) {
     }
 }
 
-// Utility: extract values from form
+// extract values from form
 function extractFormValues() {
     return {
         projectName: document.getElementById('projectName').value,
@@ -211,7 +211,7 @@ window.onclick = (event) => {
 
 function openModal() {
     form.style.display = 'block';
-    setTimeout(() => map.invalidateSize(), 200); // Leaflet fix
+    setTimeout(() => map.invalidateSize(), 200); 
 }
 
 function closeModal() {
@@ -227,17 +227,17 @@ document.getElementById('select-button').addEventListener('click', () => {
             checkbox.type = 'checkbox';
             checkbox.className = 'row-checkbox';
             checkboxCell.appendChild(checkbox);
-            row.insertBefore(checkboxCell, row.firstChild); // insert at beginning
+            row.insertBefore(checkboxCell, row.firstChild); 
         }
     });
 
-    // Add the "Select" header cell at the beginning of the header row
+
     const headerRow = document.querySelector('#project-table').closest('table').querySelector('thead tr');
     if (!headerRow.querySelector('.select-header')) {
         const th = document.createElement('th');
         th.textContent = 'Select';
         th.className = 'select-header';
-        headerRow.insertBefore(th, headerRow.firstChild); // insert at beginning
+        headerRow.insertBefore(th, headerRow.firstChild); 
     }
 
     document.getElementById('table-controls').style.display = 'block';
@@ -246,12 +246,12 @@ document.getElementById('select-button').addEventListener('click', () => {
 
 
 document.getElementById('cancel-selection-button').addEventListener('click', () => {
-    // Remove all checkboxes
+    
     document.querySelectorAll('.row-checkbox').forEach(cb => {
         cb.closest('td').remove();
     });
 
-    // Remove select header cell
+    
     const headerRow = document.querySelector('#project-table').previousElementSibling;
     const selectHeader = headerRow.querySelector('.select-header');
     if (selectHeader) selectHeader.remove();
@@ -268,7 +268,7 @@ document.getElementById('delete-button').addEventListener('click', () => {
     rows.forEach(row => {
         const checkbox = row.querySelector('.row-checkbox');
         if (checkbox && checkbox.checked) {
-            const id = row.getAttribute('data-id'); // Assuming 'data-id' stores the project ID
+            const id = row.getAttribute('data-id'); 
             idsToDelete.push(id);
         }
     });
@@ -285,14 +285,14 @@ document.getElementById('delete-button').addEventListener('click', () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ids: idsToDelete }) // Send array of IDs in the request body
+        body: JSON.stringify({ ids: idsToDelete }) 
     })
     .then(response => response.json())
     .then(data => {
         if (data.message) {
-            alert(data.message); // Show success message
-            populateTable(); // Refresh the table after deletion
-            document.getElementById('cancel-selection-button').click(); // Exit selection mode
+            alert(data.message); 
+            populateTable(); 
+            document.getElementById('cancel-selection-button').click(); 
         }
     })
     .catch(err => {

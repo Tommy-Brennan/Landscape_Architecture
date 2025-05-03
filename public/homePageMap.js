@@ -42,6 +42,7 @@ collapseButton.addEventListener('click', () => {
   }
 });
 
+// DEPRECATED: Initialize the left sidebar
 // initialize left sidebar
 // const leftSidebar = L.control.sidebar({
 // container: 'leftSidebar',

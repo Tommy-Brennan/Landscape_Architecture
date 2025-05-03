@@ -13,7 +13,7 @@
 #form-map-container {
     display: none;
     gap: 20px;
-    align-items: center;  /* Vertically center the map */
+    align-items: center;  
     flex-wrap: wrap;
 }
 
@@ -23,13 +23,13 @@
     padding: 2rem;
     border-radius: 10px;
     width: 90%;
-    max-width: 1000px; /* Adjusted to allow more space for larger screens */
+    max-width: 1000px; 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;  /* Space between form and map */
+    gap: 20px;  
 }
 
 .close {
@@ -113,7 +113,7 @@
     transition: border-color 0.2s ease-in-out;
     background-color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    appearance: none; /* Optional: removes native dropdown styling in some browsers */
+    appearance: none; 
 }
 
 #input-container select:focus {

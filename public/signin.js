@@ -21,7 +21,7 @@ function handleCredentialResponse(response) {
     .then(data => {
         console.log('Login successful:', data);
         sessionStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = '/dashboard'; // Redirect to dashboard
+        window.location.href = '/dashboard'; 
     })
     .catch(err => console.error('Login failed', err));
 }
@@ -32,7 +32,7 @@ async function signOut() {
             method: 'POST',
             credentials: 'include'
         });
-        window.location.href = '/login'; // or wherever your login page is
+        window.location.href = '/login'; 
     } catch (err) {
         console.error('Logout failed:', err);
     }

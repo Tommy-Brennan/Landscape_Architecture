@@ -55,7 +55,7 @@ app.use(express.static('public'));
 app.get('/projects', async (req, res) => {
     try {
         const result = await turso.execute("SELECT * FROM projects");
-        const rows = result.rows; // Extract rows from the result
+        const rows = result.rows; 
         res.json(rows);
     } catch (err) {
         console.error("DB error:", err);
@@ -68,7 +68,7 @@ app.get('/projects/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
         const result = await turso.execute("SELECT * FROM projects WHERE id = ?", [id]);
-        const project = result.rows[0]; // Extract the first row from the result
+        const project = result.rows[0]; 
         if (project) {
             res.json(project);
         } else {
@@ -123,7 +123,7 @@ app.post('/projects', authenticateToken, authorize(PERMISSIONS.ADD_EDIT, PERMISS
 });
 
 app.post('/projects/delete/', authenticateToken, authorize(PERMISSIONS.ADD_EDIT_DELETE, PERMISSIONS.ADMIN),async (req, res) => {
-    const { ids } = req.body; // Expecting: { ids: [1, 2, 3] }
+    const { ids } = req.body; 
 
     if (!Array.isArray(ids) || ids.length === 0) {
         return res.status(400).json({ error: "No project IDs provided" });
@@ -170,7 +170,7 @@ app.put('/projects/update', authenticateToken, authorize(PERMISSIONS.ADD_EDIT, P
                 lng = ?
             WHERE id = ?
             `,
-            [projectName, mainPartner, otherpartners, projectType, areaScope, deliverables, link, lat, lng, id] // note 'id' is last
+            [projectName, mainPartner, otherpartners, projectType, areaScope, deliverables, link, lat, lng, id] 
         );
         res.status(200).json({ message: 'Project updated successfully' });
     } catch (err) {
@@ -185,7 +185,7 @@ app.get('/users', authenticateToken, async (req, res) => {
 
     try {
         const result = await turso.execute("SELECT * FROM users");
-        const rows = result.rows; // Extract rows from the result
+        const rows = result.rows; 
         res.json(rows);
     } catch (err) {
         console.error("DB error:", err);
@@ -222,7 +222,7 @@ app.put('/users/update', authenticateToken, authorize(PERMISSIONS.ADMIN), async 
                 permissions = ?
             WHERE user_id = ?
             `,
-            [email, permissions, user_id] // note 'user_id' is last
+            [email, permissions, user_id] 
         );
         res.status(200).json({ message: 'User updated successfully' });
     } catch (err) {
@@ -232,7 +232,7 @@ app.put('/users/update', authenticateToken, authorize(PERMISSIONS.ADMIN), async 
 });
 
 app.post('/users/delete', authenticateToken, authorize(PERMISSIONS.ADMIN), async (req, res) => {
-    const { ids } = req.body; // Expecting: { ids: [1, 2, 3] }
+    const { ids } = req.body; 
 
     if (!Array.isArray(ids) || ids.length === 0) {
         return res.status(400).json({ error: "No user IDs provided" });
@@ -253,7 +253,7 @@ app.get('/users/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
         const result = await turso.execute("SELECT * FROM users WHERE user_id = ?", [id]);
-        const user = result.rows[0]; // Extract the first row from the result
+        const user = result.rows[0]; 
         if (user) {
             res.json(user);
         } else {

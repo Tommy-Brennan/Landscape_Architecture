@@ -3,6 +3,7 @@ const form = document.getElementById('form-map-container');
 const addBtn = document.getElementById('add-button');
 const span = document.querySelector('.close');
 const submitButton = document.getElementById('submit-button');
+const currentUserPermission = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')).permissions : null;
 
 // Initialize the map centered on Washington DC
 let map = L.map('map').setView([38.9072, -77.0369], 7.3);
@@ -79,7 +80,7 @@ function handleFormSubmit(event) {
         console.error('Error adding project:', err);
         alert('Error saving project. Check the console.');
     });
-}
+};
 
 // Populate table with projects
 function populateTable() {
@@ -259,7 +260,70 @@ document.getElementById('cancel-selection-button').addEventListener('click', () 
     document.getElementById('select-button').style.display = 'inline';
 });
 
+document.getElementById('delete-button').addEventListener('click', () => {
+    const rows = document.querySelectorAll('#project-table tr');
+    const idsToDelete = [];
+
+    // Collect the IDs of the selected rows
+    rows.forEach(row => {
+        const checkbox = row.querySelector('.row-checkbox');
+        if (checkbox && checkbox.checked) {
+            const id = row.getAttribute('data-id'); // Assuming 'data-id' stores the project ID
+            idsToDelete.push(id);
+        }
+    });
+
+    // Ensure there are IDs to delete
+    if (idsToDelete.length === 0) {
+        alert('No projects selected for deletion.');
+        return;
+    }
+
+    // Send the selected IDs to the backend
+    fetch('/projects/delete/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ids: idsToDelete }) // Send array of IDs in the request body
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message); // Show success message
+            populateTable(); // Refresh the table after deletion
+            document.getElementById('cancel-selection-button').click(); // Exit selection mode
+        }
+    })
+    .catch(err => {
+        console.error('Error deleting projects:', err);
+        alert('Failed to delete projects. Check the console.');
+    });
+});
 
 
-// Load project table on page load
-window.onload = populateTable;
+function handlePermissions() {
+
+    if (currentUserPermission === 'admin') {
+
+        addBtn.style.display = 'inline';
+        document.getElementById('select-button').style.display = 'inline';
+    } else if (currentUserPermission === 'add/edit') {
+
+        addBtn.style.display = 'inline';
+        document.getElementById('select-button').style.display = 'none';
+    } else if (currentUserPermission === 'add/edit/delete') {
+
+        addBtn.style.display = 'inline';
+        document.getElementById('select-button').style.display = 'inline';
+    } else {
+
+        addBtn.style.display = 'none';
+        document.getElementById('select-button').style.display = 'none';
+    }
+}
+
+window.onload = () => {
+    populateTable();
+    handlePermissions();
+};

@@ -2,12 +2,14 @@ body, html {
     margin: 0; 
     padding: 0; 
     height: 100%; 
+    overflow: hidden;
 }
 #map { 
     position: absolute; 
     top: 0; 
     bottom: 0; 
-    width: 100%;
+    width: 100%; /* Adjust width */
+    z-index: 1;    /* Ensure it doesn't overlap nav */
 }
 #collapseButton {
     float: right;
@@ -20,6 +22,13 @@ body, html {
 #leaflet-sidebar-content {
     width: auto;
     height: auto;
+}
+
+.leaflet-sidebar-header {
+    background-color:#e21833;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Expanded right sidebar */
@@ -52,7 +61,7 @@ body, html {
 }
 
 
-#leftSidebar {
+/* #leftSidebar {
     left: 0 !important;
     right: auto !important;
 }
@@ -76,4 +85,25 @@ body, html {
 .rotate-hamburger {
     transform: rotate(90deg);
 }
+ */
 
+ .sidebar-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px; /* or whatever width you want */
+    background-color: rgba(255, 255, 255, 0.8); /* translucent background */
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    opacity: 0.7;
+}
+
+.sidebar-nav:hover {
+    opacity: 1;
+}
+
+.leaflet-control-zoom {
+    top: 10px; /* space from top */
+    left: 210px; /* adjust based on your sidebar width */
+}

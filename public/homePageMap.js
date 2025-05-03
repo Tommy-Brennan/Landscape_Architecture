@@ -5,7 +5,6 @@ let lastClickedMarker = null;
 const hamburgerToggle = document.getElementById('hamburgerToggle');
 const map = L.map('map').setView([38.9072, -77.0369], 8);
 
-
 L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=OnXBtQJuRfAynPnVkfBw', {
   attribution: '&copy; MapTiler & OpenStreetMap contributors'
 }).addTo(map);
@@ -44,21 +43,21 @@ collapseButton.addEventListener('click', () => {
 });
 
 // initialize left sidebar
-const leftSidebar = L.control.sidebar({
-container: 'leftSidebar',
-position: 'left'
-}).addTo(map);
+// const leftSidebar = L.control.sidebar({
+// container: 'leftSidebar',
+// position: 'left'
+// }).addTo(map);
 
-document.querySelector('a[href="#menu"]').addEventListener('click', () => {
-  if (leftSidebarOpen) {
-    leftSidebar.close();
-    hamburgerToggle.classList.remove('rotate-hamburger');
-  } else {
-    leftSidebar.open('menu');
-    hamburgerToggle.classList.add('rotate-hamburger');
-  }
-  leftSidebarOpen = !leftSidebarOpen;
-});
+// document.querySelector('a[href="#menu"]').addEventListener('click', () => {
+//   if (leftSidebarOpen) {
+//     leftSidebar.close();
+//     hamburgerToggle.classList.remove('rotate-hamburger');
+//   } else {
+//     leftSidebar.open('menu');
+//     hamburgerToggle.classList.add('rotate-hamburger');
+//   }
+//   leftSidebarOpen = !leftSidebarOpen;
+// });
 
 // Fetch projects from the database and add markers to the map
 fetch('/projects')

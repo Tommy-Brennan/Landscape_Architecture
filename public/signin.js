@@ -6,11 +6,21 @@ function handleCredentialResponse(response) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ credential: response.credential })
     })
-    .then(res => res.json())
+    .then(async res => {
+        if (!res.ok) {
+            const errorData = await res.json();
+            if (res.status === 401) {
+                alert('You are not authorized to access this application.');
+            } else {
+                alert(`Login failed: ${errorData.error || 'Unknown error'}`);
+            }
+            throw new Error(errorData.error);
+        }
+        return res.json();
+    })
     .then(data => {
         console.log('Login successful:', data);
         sessionStorage.setItem('user', JSON.stringify(data.user));
-       // toggleAuthButtons(true); // Show the logout button
         window.location.href = '/dashboard'; // Redirect to dashboard
     })
     .catch(err => console.error('Login failed', err));

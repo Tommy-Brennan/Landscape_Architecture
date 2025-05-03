@@ -27,57 +27,6 @@ body {
     margin: 0 auto;
 }
 
-
-/* #map {
-    margin-top: 20px;
-    height: 300px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-} */
-
-/* #form-map-container {
-    display: flex;
-} */
-
-/* #coordinates {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-radius: 6px;
-} */
-
-/* .sidebar-nav {
-    height: 100vh;
-    width: 200px;
-    background-color: white;
-    color: #333;
-    padding-top: 20px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-nav h2 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.sidebar-nav a {
-    padding: 15px 20px;
-    text-decoration: none;
-    color: #333;
-    display: block;
-}
-
-.sidebar-nav a:hover {
-    background-color: #575757;
-    color: white;
-} */
-
 .main {
     justify-content: center;
     margin-left: 220px;
@@ -85,81 +34,35 @@ body {
     flex-grow: 1;
 }
 
-/* .add-button-container {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    margin: 0px;
-} */
-
-/* #add-button {
-    background-color: #28a745;
-    color: white;
-    padding: 8px 16px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#add-button:hover {
-    background-color: #218838;
-} */
-
-/* .add-button-container {
-    display: flex;
-    justify-content: space-between;
-} */
-
-/* .add-button:hover {
-    background-color: #213a26;
-} */
-
-/* #form-map-container {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-} */
-
-/* .form-map-content {
+.permissions-explanation {
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 1000px;
-    display: flex;
-    gap: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-} */
-
-/* #input-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    border: 1px solid #ddd;
+    border-left: 5px solid #e21833; /* UMD red */
+    padding: 1rem;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 1500px;
+    margin: 0 auto;
 }
 
-#coordinates {
-    margin-top: 10px;
-} */
+.permissions-explanation h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
 
-/* .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-} */
+.permissions-explanation ul {
+    list-style: disc inside;
+    padding-left: 0;
+    margin: 8px 0 0 0;
+}
 
-/* .row-checkbox {
-    transform: scale(1.2);
-    margin: 5px;
-} */
+.permissions-explanation li {
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.permissions-exp-container {
+    padding: 1rem;
+}

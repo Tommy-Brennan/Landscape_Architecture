@@ -18,7 +18,7 @@ var myStyle = {
 };
 
 // Load GeoJSON from external URL
-fetch("https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json")
+fetch("/geoJson.json")
   .then(response => response.json())
   .then(geojson => {
       L.geoJSON(geojson, { style: myStyle }).addTo(map);

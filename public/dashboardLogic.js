@@ -21,7 +21,7 @@ const myStyle = {
 };
 
 // Load GeoJSON layer
-fetch("https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json")
+fetch("/geoJson.json")
     .then(res => res.json())
     .then(geojson => {
         L.geoJSON(geojson, { style: myStyle }).addTo(map);

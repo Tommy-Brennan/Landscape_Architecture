@@ -75,19 +75,25 @@ function handleFormSubmit(event) {
         closeModal();
     })
     .catch(err => {
-        console.error('Error adding project:', err);
-        alert('Error saving project. Check the console.');
+        console.error('Error adding user:', err);
+        alert('Error saving user. Check the console.');
     });
 };
 
 
 function openEditForm(id) {
     fetch(`/users/${id}`)
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                return res.text().then(errorText => {
+                    throw new Error(`Failed to load user data: ${errorText}`);
+                });
+            }
+            return res.json();
+        })
         .then(user => {
             populateForm(user);
             openModal();
-            
 
             form.onsubmit = (event) => {
                 event.preventDefault();
@@ -99,18 +105,31 @@ function openEditForm(id) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedUser)
                 })
-                    .then(() => {
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(errorText => {
+                                throw new Error(`Failed to update user: ${errorText}`);
+                            });
+                        }
                         populateTable();
                         closeModal();
-                        console.log('Project updated:', updatedUser);
+                        console.log('User updated:', updatedUser);
                     })
-                    .catch(err => console.error('Error updating project:', err));
+                    .catch(err => {
+                        console.error('Error:', err);
+                        alert(`An error occurred: ${err.message}`);
+                    });
             };
 
             submitButton.textContent = 'Update';
         })
-        .catch(err => console.error('Error loading project:', err));
+        .catch(err => {
+            console.error('Error loading user:', err);
+            alert(`Failed to load user: ${err.message}`);
+        });
 }
+
+
 
 function populateForm(user) {
     document.getElementById('email').value = user.email;
@@ -213,7 +232,14 @@ document.getElementById('delete-button').addEventListener('click', () => {
         },
         body: JSON.stringify({ ids: idsToDelete })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorText => {
+                throw new Error(`Failed to delete users: ${errorText}`);
+            });
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.message) {
             alert(data.message); 
@@ -223,7 +249,7 @@ document.getElementById('delete-button').addEventListener('click', () => {
     })
     .catch(err => {
         console.error('Error deleting users:', err);
-        alert('Failed to delete projects. Check the console.');
+        alert(`Failed to delete user: ${err.message}`);
     });
 });
 

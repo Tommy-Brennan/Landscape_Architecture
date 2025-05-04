@@ -211,7 +211,7 @@ app.post('/users', authenticateToken, authorize(PERMISSIONS.ADMIN),async (req, r
     }
 });
 
-app.put('/users/update', authenticateToken, authorize(PERMISSIONS.ADMIN), async (req, res) => {
+app.put('/users/update', authenticateToken, authorize(PERMISSIONS.ADMIN), ensureAtLeastOneAdmin,async (req, res) => {
     const { user_id, email, permissions } = req.body;
 
     try {
@@ -231,7 +231,7 @@ app.put('/users/update', authenticateToken, authorize(PERMISSIONS.ADMIN), async 
     }
 });
 
-app.post('/users/delete', authenticateToken, authorize(PERMISSIONS.ADMIN), async (req, res) => {
+app.post('/users/delete', authenticateToken, authorize(PERMISSIONS.ADMIN), ensureAtLeastOneAdmin,async (req, res) => {
     const { ids } = req.body; 
 
     if (!Array.isArray(ids) || ids.length === 0) {
@@ -341,7 +341,7 @@ function authenticateToken(req, res, next) {
 }
 
 // Middleware to check permissions
-function authorize(requiredPermissions = []) {
+function authorize(...requiredPermissions) {
     return (req, res, next) => {
         const userPermissions = req.user?.permissions;
 
@@ -349,13 +349,61 @@ function authorize(requiredPermissions = []) {
             return res.status(403).json({ error: 'No permissions found' });
         }
 
-        if (requiredPermissions.includes(userPermissions) || userPermissions === 'admin') {
-            return next();
+        // Ensure that the userPermissions is always an array
+        const perms = typeof userPermissions === 'string' ? [userPermissions] : userPermissions;
+        const hasPermission = requiredPermissions.some(p => perms.includes(p) || perms.includes('admin'));
+
+        if (!hasPermission) {
+            return res.status(403).json({ error: 'Insufficient permissions' });
         }
 
-        return res.status(403).json({ error: 'Insufficient permissions' });
+        return next();
     };
 }
+
+async function ensureAtLeastOneAdmin(req, res, next) {
+    try {
+        // Handle deletions
+        if (req.body.ids) {
+            const ids = req.body.ids;
+            const placeholders = ids.map(() => '?').join(',');
+            const sql = `SELECT COUNT(*) as adminCount FROM users WHERE permissions = ? AND user_id NOT IN (${placeholders})`;
+            const result = await turso.execute(sql, ['admin', ...ids]);
+
+            if (result.rows[0].adminCount === 0) {
+                return res.status(400).json({ error: 'Cannot remove the last admin user' });
+            }
+        }
+
+        // Handle updates
+        if (req.body.permissions !== undefined && req.body.user_id !== undefined) {
+            const { user_id, permissions } = req.body;
+
+            // If this user is currently an admin and we're trying to remove that role
+            const current = await turso.execute("SELECT permissions FROM users WHERE user_id = ?", [user_id]);
+            const wasAdmin = current.rows[0]?.permissions === 'admin';
+            const willBeAdmin = permissions === 'admin';
+
+            if (wasAdmin && !willBeAdmin) {
+                // Count how many other admins remain
+                const result = await turso.execute(
+                    "SELECT COUNT(*) as adminCount FROM users WHERE permissions = 'admin' AND user_id != ?",
+                    [user_id]
+                );
+
+                if (result.rows[0].adminCount === 0) {
+                    return res.status(400).json({ error: 'Cannot remove the last admin user' });
+                }
+            }
+        }
+
+        next();
+    } catch (err) {
+        console.error('Admin check error:', err);
+        res.status(500).json({ error: 'Internal server error during admin check' });
+    }
+}
+
 
 
 // Serve dashboard page

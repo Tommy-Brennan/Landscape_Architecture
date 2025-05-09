@@ -26,9 +26,9 @@ Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs
 ## Technologies Used
 
 - Frontend: JavaScript, Leaflet.js, HTML/CSS
-- Backend: Python, Flask (or other, please specify), SQLite/PostgreSQL
+- Backend: Python, Flask, SQLite/PostgreSQL
 - Version Control: Git & GitHub
-- Tools: Visual Studio Code, GitHub Projects, Figma (if applicable)
+- Tools: Visual Studio Code, GitHub Projects, Figma
 
 ## Roles & Contributions
 
@@ -42,10 +42,3 @@ Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs
 ## Current Status
 
 Final development sprint in progress. Features are being finalized and documentation prepared for handoff to the Landscape Architecture department.
-
-## Future Plans
-
-- Resolve final deployment issues
-- Implement hosting on university servers or a secure cloud platform
-- Expand project metadata filtering on the map
-- Integrate media viewer for PDFs/images of project work

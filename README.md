@@ -1,6 +1,6 @@
 # Landscape Architecture Webpage & Database Dashboard
 
-An interactive web platform designed for the University of Maryland's Landscape Architecture Program to showcase student capstone projects using geospatial visualization and a dynamic database dashboard.
+An interactive web platform designed for the University of Maryland's Landscape Architecture Program to showcase student projects using geospatial visualization and a dynamic database dashboard.
 
 ## Project Overview
 

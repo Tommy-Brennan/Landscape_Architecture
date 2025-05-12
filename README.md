@@ -11,6 +11,9 @@ The Landscape Architecture Program has a wealth of student projects stored in un
 - Developing a dashboard with user authentication to manage content
 - Providing documentation for future maintenance and development
 
+## Website Link
+https://landscape-architecture-map.onrender.com/
+
 ## Live Demo
 
 Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs
@@ -35,8 +38,8 @@ Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs
 - Tommy Brennan – UX Design & Frontend Map Development  
 - Jordon Farrell – Lead Programming & Backend Integration  
 - Ahmed Khan – Backend Development  
-- Mikel Reyes – Database Design & Modeling  
-- Jason Calix – Project Management  
+- Mikel Reyes – Project Management  
+- Jason Calix – Database Design & Modeling
 - Tim Hong – QA Testing & Bug Tracking
 
 ## Current Status

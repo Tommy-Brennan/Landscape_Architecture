@@ -11,6 +11,9 @@ The Landscape Architecture Program has a wealth of student projects stored in un
 - Developing a dashboard with user authentication to manage content
 - Providing documentation for future maintenance and development
 
+## Website Link
+https://landscape-architecture-map.onrender.com/
+
 ## Live Demo
 
 Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs

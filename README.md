@@ -1,6 +1,6 @@
 # Landscape Architecture Webpage & Database Dashboard
 
-An interactive web platform designed for the University of Maryland's Landscape Architecture Program to showcase student projects using geospatial visualization and a dynamic database dashboard.
+An interactive web platform designed for the University of Maryland's Landscape Architecture Program to showcase student capstone projects using geospatial visualization and a dynamic database dashboard.
 
 ## Project Overview
 
@@ -40,6 +40,8 @@ Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs
 - Ahmed Khan – Backend Development  
 - Mikel Reyes – Project Management 
 - Jason Calix – Database Design & Modeling 
+- Mikel Reyes – Project Management  
+- Jason Calix – Database Design & Modeling
 - Tim Hong – QA Testing & Bug Tracking
 
 ## Current Status

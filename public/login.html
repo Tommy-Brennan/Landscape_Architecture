@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="signin.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="sidebar-nav.css">
+</head>
+<body>
+    <div class="sidebar-nav">
+        <div class="branding-bar">
+            <div class="color-bar">
+              <span class="red"></span>
+              <span class="black"></span>
+              <span class="gold"></span>
+            </div>
+            <h1 class="site-title">Landscape Architecture Map</h1>
+          </div>
+        
+        <a href="/dashboard">Dashboard</a>
+        <a href="/">Interactive Map</a>
+        <a href="/dashboard/users">Users</a>
+        <div id="auth-buttons">
+            <button id="sign-out-btn" class="google-sign-btn" onclick="signOut()">
+                <i class="fab fa-google"></i> Sign out
+            </button>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1 class="title">Login</h1>
+
+
+        <div class="login-container">
+            <p>Welcome to the login page. Please sign in to continue.</p>
+            <div class="g-sign-in-btn">
+                <div id="g_id_onload"
+                data-client_id="291483116226-avivqcd6cs68bk1slb1eelp7a4jukkid.apps.googleusercontent.com"
+                data-context="signin"
+                data-callback="handleCredentialResponse"
+                data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin" 
+                    data-type="standard"
+                    data-size="large"
+                    data-theme="outline"
+                    data-text="sign_in_with"
+                    data-shape="rectangular"
+                    data-logo_alignment="left">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-sidebar-v2/css/leaflet-sidebar.min.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href=./styles.css>
+  <link rel="stylesheet" href=./sidebar-nav.css>
+</head>
+<body>
+
+  <div class="sidebar-nav">
+    <div class="branding-bar">
+      <div class="color-bar">
+        <span class="red"></span>
+        <span class="black"></span>
+        <span class="gold"></span>
+      </div>
+      <h1 class="site-title">Landscape Architecture Map</h1>
+    </div>
+    
+    <a href="/dashboard">Dashboard</a>
+    <a href="/">Interactive Map</a>
+    <a href="/dashboard/users">Users</a>
+</div>
+
+<div class="main">
+<!-- Left Sidebar -->
+<!-- <div id="leftSidebar" class="leaflet-sidebar collapsed">
+  <div class="leaflet-sidebar-tabs">
+    <ul role="tablist">
+
+      <li>
+        <a href="#menu" role="tab">
+          <span id="hamburgerToggle"><i class="fa fa-bars"></span></i>
+        </a>
+      </li>
+
+      <li>
+        <a href="/dashboard">
+          <i class="fa fa-tachometer-alt"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="leaflet-sidebar-content">
+    <div class="leaflet-sidebar-pane" id="menu">
+      <h1 class="leaflet-sidebar-header">
+      </h1>
+      <ul>
+        <li><a href="/dashboard" class="left-sidebar-link" >Dashboard</a></li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- Right Sidebar -->
+<div id="sidebar" class="leaflet-sidebar collapsed">
+  <div class="leaflet-sidebar-tabs">
+    <ul role="tablist">
+      <li><a href="#markerInfo" role="tab" style="pointer-events: none;"><i class="fa fa-info-circle"></i></a></li>
+    </ul>
+  </div>
+  <div class="leaflet-sidebar-content">
+    <div class="leaflet-sidebar-pane" id="markerInfo">
+      <h1 class="leaflet-sidebar-header">
+        Project Info
+        <span id="collapseButton"><i class="fa fa-arrow-right"></i></span>
+      </h1>
+      <div id="sidebar-content"></div>
+    </div>
+  </div>
+</div>
+
+<div id="map"></div>
+</div>
+
+
+<script src="homePageMap.js"></script>
+
+
+</body>
+</html>

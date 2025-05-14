@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" href="/sidebar-nav.css" />
+    <link rel="stylesheet" href="/dashboard.css" />
+    <link rel="stylesheet" href="/tables.css" />
+    <link rel="stylesheet" href="/modal.css" />
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <script src="/signin.js"></script>
+    <script src="/usersDashboard.js" async defer></script>
+</head>
+
+<body>
+    <div class="sidebar-nav">
+        <div class="branding-bar">
+            <div class="color-bar">
+              <span class="red"></span>
+              <span class="black"></span>
+              <span class="gold"></span>
+            </div>
+            <h1 class="site-title">Landscape Architecture Map</h1>
+          </div>
+        
+        <a href="/dashboard">Dashboard</a>
+        <a href="/">Interactive Map</a>
+        <a href="/dashboard/users">Users</a>
+        <div id="auth-buttons">
+            <button id="sign-out-btn" class="google-sign-btn" onclick="signOut()">
+                <i class="fab fa-google"></i> Sign out
+            </button>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1 class="title">Users</h1>
+
+        <div class="permissions-exp-container">
+            <div class="permissions-explanation" >
+                <h2>User Permissions</h2>
+                <ul>
+                    <li><strong>Add/Edit:</strong> Can add new projects to the database and edit existing ones.</li>
+                    <li><strong>Add/Edit/Delete:</strong> Includes all Add/Edit capabilities and also allows deleting database entries.</li>
+                    <li><strong>Admin:</strong> Full access including user management and permissions.</li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="modal" id="form-map-container">
+            <div class="form-map-content">
+                <span class="close">&times;</span>
+        
+                <form id="input-container">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" placeholder="Email" required />
+        
+                    <label for="permissions">Permissions:</label>
+                    <select name="permissions" id="permissions" required>
+                        <option value="" disabled selected hidden>Select permissions</option>
+                        <option value="add/edit">Add/Edit</option>
+                        <option value="add/edit/delete">Add/Edit/Delete</option>
+                        <option value="admin">Admin</option>
+                    </select>
+        
+                    <button type="submit" id="submit-button">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+
+        <div id="table-container">
+            <div id="table-header">
+                <div id="table-controls" style="display: none;">
+                    <div id="delete-controls">
+                        <button id="delete-button">Delete Selected</button>
+                        <button id="cancel-selection-button">Cancel Selection</button>
+                    </div>
+                </div>
+
+                <button id="select-button">Select Rows</button>
+                <button id="add-button" onclick="setFormToCreateMode()">+ Add a User</button>
+            </div>
+
+            <table border='1' style="width: 100%; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Permissions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table"></tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

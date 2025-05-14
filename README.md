@@ -38,6 +38,8 @@ Watch the video demo: http://www.youtube.com/watch?v=bygJ-YxxUxs
 - Tommy Brennan – UX Design & Frontend Map Development  
 - Jordon Farrell – Lead Programming & Backend Integration  
 - Ahmed Khan – Backend Development  
+- Mikel Reyes – Project Management 
+- Jason Calix – Database Design & Modeling 
 - Mikel Reyes – Project Management  
 - Jason Calix – Database Design & Modeling
 - Tim Hong – QA Testing & Bug Tracking

@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;;
+}
+
+.sidebar-nav {
+    height: 100vh;
+    width: 200px;
+    background-color: white;
+    color: #333;
+    padding-top: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.sidebar-nav h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-nav a {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.sidebar-nav a:hover {
+    background-color: #575757;
+    color: white;
+}
+
+.google-sign-btn {
+    display: inline-block;
+    width: 75%;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 40px;
+    color: #4285F4;
+    background-color: #fff;
+    border: 1px solid #4285F4;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.google-sign-btn:hover {
+    background-color: #4285F4;
+    color: #fff;
+}
+
+.google-sign-btn i {
+    margin-right: 8px;
+}
+
+.google-sign-btn:focus {
+    outline: none;
+}
+
+.google-sign-btn:active {
+    background-color: #357ae8;
+    border-color: #357ae8;
+}
+
+#auth-buttons {
+    margin-top : auto;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#sidebar-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sidebar-icon img{
+    width: 100%;
+    height: 100%;
+}
+
+.branding-bar {
+    background-color: #f8f8f8;
+    padding: 1rem;
+    text-align: left;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .color-bar {
+    display: flex;
+    height: 8px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .color-bar span {
+    flex: 1;
+  }
+  
+  .red {
+    background-color: #e21833;
+  }
+  
+  .black {
+    background-color: #000000;
+  }
+  
+  .gold {
+    background-color: #ffd200;
+  }
+  
+  .site-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111;
+    margin: 0;
+  }
+  

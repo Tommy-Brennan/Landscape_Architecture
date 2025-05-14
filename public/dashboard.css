@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-container {
+    width: 450px;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.g-sign-in-btn {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.main {
+    justify-content: center;
+    margin-left: 220px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.permissions-explanation {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: 5px solid #e21833; /* UMD red */
+    padding: 1rem;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.permissions-explanation h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.permissions-explanation ul {
+    list-style: disc inside;
+    padding-left: 0;
+    margin: 8px 0 0 0;
+}
+
+.permissions-explanation li {
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.permissions-exp-container {
+    padding: 1rem;
+}
